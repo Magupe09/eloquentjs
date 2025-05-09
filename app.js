@@ -57,4 +57,30 @@ const caminos = [
   console.log(siguiente.parcels);
   // → []
   console.log(primero.lugar);
-  // → Oficina de Correos
+  // → Oficina de Correos.
+
+  function correrRobot(estado, robot, memoria) {
+    for (let turno = 0;; turno++) {
+      if (estado.paquetes.length == 0) {
+        console.log(`Listo en ${turno} turnos`);
+        break;
+      }
+      let accion = robot(estado, memoria);
+      estado = estado.mover(accion.direccion);
+      memoria = accion.memoria;
+      console.log(`Moverse a ${accion.direccion}`);
+    }
+  }
+
+  function encontrarRuta(grafo, desde, hasta) {
+  let trabajo = [{donde: desde, ruta: []}];
+  for (let i = 0; i < trabajo.length; i++) {
+    let {donde, ruta} = trabajo[i];
+    for (let lugar of grafo[donde]) {
+      if (lugar == hasta) return ruta.concat(lugar);
+      if (!trabajo.some(w => w.donde == lugar)) {
+        trabajo.push({donde: lugar, ruta: ruta.concat(lugar)});
+      }
+    }
+  }
+}
