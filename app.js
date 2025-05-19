@@ -137,4 +137,64 @@ function robotOrientadoAMetas({ lugar, paquetes }, ruta) {
   }
   return { direccion: ruta[0], memoria: ruta.slice(1) };
 }
-runRobotAnimation(EstadoPueblo.aleatorio(), robotOrientadoAMetas, []);
+//console.log( runRobotAnimation(EstadoPueblo.aleatorio(), robotOrientadoAMetas, []))
+
+
+
+function correrRobotParaMedir(estado, robot, memoria) {
+  for (let turno = 0; turno < 2000 ; turno++) {
+    if (estado.paquetes.length == 0) {
+      console.log(`Listo en ${turno} turnos`);
+      return turno
+      
+    }
+    let accion = robot(estado, memoria);
+    estado = estado.mover(accion.direccion);
+    memoria = accion.memoria;
+    console.log(`Moverse a ${accion.direccion}`);
+  }
+  console.log("El robot no pudo completar la tarea en el límite de turnos.");
+  return Infinity;
+}
+function  calcularPromedio(resultados){
+       let promedio=0
+       resultados.forEach(element => {
+        promedio += element ;
+       });
+       promedio = promedio / resultados.length
+       return promedio
+}
+
+
+function compararRobots(robot1, memoria1, robot2, memoria2) {
+  const numeroDeTareas = 100;
+  const resultadosRobot1 = [];
+  const resultadosRobot2 = [];
+
+  for (let i = 0; i < numeroDeTareas; i++) {
+    // 1. Generar una tarea (un estado inicial del pueblo)
+    const tarea = EstadoPueblo.aleatorio();
+
+    // 2. Hacer que el robot 1 resuelva la tarea y registrar los pasos
+    const pasosRobot1 = correrRobotParaMedir(tarea, robot1, memoria1); // Necesitas crear esta función
+
+    // 3. Hacer que el robot 2 resuelva LA MISMA tarea y registrar los pasos
+    const pasosRobot2 = correrRobotParaMedir(tarea, robot2, memoria2); // Usando la misma 'tarea'
+
+    // 4. Guardar los resultados
+    resultadosRobot1.push(pasosRobot1);
+    resultadosRobot2.push(pasosRobot2);
+  }
+
+  // 5. Calcular los promedios
+  const promedioRobot1 = calcularPromedio(resultadosRobot1); // Necesitas crear esta función
+  const promedioRobot2 = calcularPromedio(resultadosRobot2); // Necesitas crear esta función
+
+  // 6. Mostrar los resultados
+  console.log(`Promedio Robot 1: ${promedioRobot1} pasos por tarea`);
+  console.log(`Promedio Robot 2: ${promedioRobot2} pasos por tarea`);
+}
+compararRobots(robotRuta, [], robotOrientadoAMetas, []);
+// Funciones auxiliares que necesitarás crear:
+// - correrRobotParaMedir(estado, robot, memoria): Similar a correrRobot, pero devuelve el número de turnos.
+// - calcularPromedio(arrayDeNumeros): Calcula la media de un array de números.
