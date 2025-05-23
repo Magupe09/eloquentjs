@@ -198,3 +198,6 @@ compararRobots(robotRuta, [], robotOrientadoAMetas, []);
 // Funciones auxiliares que necesitarás crear:
 // - correrRobotParaMedir(estado, robot, memoria): Similar a correrRobot, pero devuelve el número de turnos.
 // - calcularPromedio(arrayDeNumeros): Calcula la media de un array de números.
+
+//Bugs 
+//Typos 
