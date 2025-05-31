@@ -37,3 +37,16 @@ try {
 }
 console.log(caja.bloqueada);
 // → true
+
+let almacen = "1 limon, 2 lechugas, y 101 huevos";
+function menosUno(coincidencia, cantidad, unidad) {
+  cantidad = Number(cantidad) - 1;
+  if (cantidad == 1) { // solo queda uno, remover la 's'
+    unidad = unidad.slice(0, unidad.length - 1);
+  } else if (cantidad == 0) {
+    cantidad = "sin";
+  }
+  return cantidad + " " + unidad;
+}
+console.log(almacen.replace(/(\d+) (\w+)/g, menosUno));
+// → sin limon, 1 lechuga, y 100 huevos
